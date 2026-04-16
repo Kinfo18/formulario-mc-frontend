@@ -214,7 +214,77 @@ PLANIFICACIÓN DE DESPLAZAMIENTOS LABORALES
 
 ---
 
-## 7. Claves de diseño para la implementación
+## 7. Variaciones Sección 5 — Análisis detallado
+
+### Variante A: KM PERMITIDO (Ruta 1 — Bloque Cubiro)
+
+**Columnas en Excel:** A:D (Descripción) | E:F (KM PERMITIDO, merged) | G:I (REQUISITO, merged)
+
+```
+| DESCRIPCIÓN DE LA ZONA       | KM PERMITIDO | REQUISITO |
+|------------------------------|:------------:|-----------|
+| Locaciones                   |              |           |
+| Vía Destapada                |              |           |
+| Vía Pavimentada              |              |           |
+| Áreas Urbanas                |              |           |
+| Zona Escolar                 |              |           |
+| Descensos Peligrosos         |              |           |
+| Otro: Requisitos del cliente |              |           |
+```
+
+**Modelo BD:** `kmPermitido: number | null`
+
+---
+
+### Variante B: CARGADO / DESCARGADO (Rutas 2 – 6)
+
+**Columnas en Excel:** A:D (Descripción) | E (CARGADO) | F (DESCARGADO) | G:I (REQUISITO, merged)
+
+```
+| DESCRIPCIÓN DE LA ZONA       | CARGADO | DESCARGADO | REQUISITO |
+|------------------------------|:-------:|:----------:|-----------|
+| Locaciones                   |         |            |           |
+| Vía Destapada                |         |            |           |
+| Vía Pavimentada              |         |            |           |
+| Áreas Urbanas                |         |            |           |
+| Zona Escolar                 |         |            |           |
+| Descensos Peligrosos         |         |            |           |
+| Otro: Requisitos del cliente |         |            |           |
+```
+
+**Modelo BD:** `velocidadCargado: number | null`, `velocidadDescargado: number | null`
+
+---
+
+### Mapeo ruta → variante
+
+| Ruta | Variante | Campo BD discriminador |
+|------|----------|----------------------|
+| Bloque Cubiro / Llanos 30 | A — KM PERMITIDO | `variante: 'unica'` |
+| Sardinas | B — CARGADO/DESCARGADO | `variante: 'dual'` |
+| Barqueréña / Maracas | B — CARGADO/DESCARGADO | `variante: 'dual'` |
+| SLP → Trinidad | B — CARGADO/DESCARGADO | `variante: 'dual'` |
+| Lucero / Joropera / Zaranda | B — CARGADO/DESCARGADO | `variante: 'dual'` |
+| SLP → Yopal | B — CARGADO/DESCARGADO | `variante: 'dual'` |
+
+---
+
+### Implicaciones de implementación
+
+1. **`RutaPlantilla`** debe tener un campo `varianteLimiteVelocidad: 'unica' | 'dual'`.
+2. **`LimiteVelocidad`** (entidad BD) tiene campos:
+   - `zona: string` (las 7 zonas fijas)
+   - `kmPermitido: number | null` — usado solo en variante `unica`
+   - `velocidadCargado: number | null` — usado solo en variante `dual`
+   - `velocidadDescargado: number | null` — usado solo en variante `dual`
+   - `requisito: string | null`
+3. **Formulario:** `useRutaSchema(rutaId)` renderiza el componente `<LimitesVelocidadUnica />` o `<LimitesVelocidadDual />` según la variante.
+4. **Plantilla PDF:** mismas 7 filas, solo cambian los encabezados de columna y cuántas celdas de velocidad se renderizan.
+5. **Validación Zod:** el schema condicional debe `refine` que si `variante === 'unica'` entonces `kmPermitido` es requerido, y viceversa.
+
+---
+
+## 8. Claves de diseño para la implementación
 
 1. **Un formulario base** con 14 secciones sirve para las 6 rutas.
 2. **Sección 5 es la única variable:** al seleccionar la ruta, el esquema de velocidades cambia entre "KM Permitido único" (Ruta 1) o "Cargado/Descargado" (Rutas 2-6).
