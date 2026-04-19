@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { apiPost, apiPatch, apiPut } from '@/lib/api-server';
 import type { CrearDesplazamientoResult, EstadoDesplazamiento } from '@/types/desplazamiento';
@@ -92,8 +93,9 @@ export async function cambiarEstadoAction(
 ): Promise<{ error?: string }> {
   try {
     await apiPatch(`/api/desplazamientos/${id}/estado`, { estado, observaciones });
-    return {};
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error al cambiar estado' };
   }
+  revalidatePath(`/desplazamientos/${id}`);
+  return {};
 }

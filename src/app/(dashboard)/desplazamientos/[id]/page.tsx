@@ -4,6 +4,7 @@ import { apiGet } from '@/lib/api-server';
 import { getSessionUser } from '@/lib/session';
 import type { EstadoDesplazamiento, TipoVehiculo } from '@/types/desplazamiento';
 import { DescargarPdfButton } from './DescargarPdfButton';
+import { CambiarEstadoButtons } from './CambiarEstadoButtons';
 
 const ESTADO_LABEL: Record<EstadoDesplazamiento, string> = {
   BORRADOR: 'Borrador',
@@ -44,11 +45,13 @@ export default async function DesplazamientoDetallePage({
 
   if (!desp) notFound();
 
-  const puedeEditar =
-    desp.estado === 'BORRADOR' &&
-    (user?.rol === 'ADMIN' || user?.rol === 'OPERACIONES' || desp.conductor?.id === user?.id);
+  const esOps = user?.rol === 'ADMIN' || user?.rol === 'OPERACIONES';
+  const esPropietario = desp.conductor?.id === user?.id;
 
-  const puedeDescargarPdf = user?.rol === 'ADMIN' || user?.rol === 'OPERACIONES';
+  const puedeEditar =
+    desp.estado === 'BORRADOR' && (esOps || esPropietario);
+
+  const puedeDescargarPdf = esOps || esPropietario;
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -76,8 +79,27 @@ export default async function DesplazamientoDetallePage({
             </Link>
           )}
           {puedeDescargarPdf && <DescargarPdfButton id={id} />}
+          {user?.rol && (
+            <CambiarEstadoButtons
+              id={id}
+              estado={desp.estado as EstadoDesplazamiento}
+              rol={user.rol as 'ADMIN' | 'OPERACIONES' | 'CONDUCTOR'}
+              esPropietario={esPropietario}
+            />
+          )}
         </div>
       </div>
+
+      {/* Banner de rechazo */}
+      {desp.estado === 'RECHAZADO' && desp.observaciones && (
+        <div className="flex gap-3 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-800">
+          <span className="shrink-0">✕</span>
+          <div>
+            <p className="font-medium mb-0.5">Desplazamiento rechazado</p>
+            <p className="text-red-700">{desp.observaciones}</p>
+          </div>
+        </div>
+      )}
 
       {/* Sección 1: Datos generales */}
       <Card title="1. Datos generales">

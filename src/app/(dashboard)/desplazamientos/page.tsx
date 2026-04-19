@@ -2,25 +2,10 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { apiGetPaginated, apiGet } from '@/lib/api-server';
 import { getSessionUser } from '@/lib/session';
-import type { DesplazamientoResumen, EstadoDesplazamiento } from '@/types/desplazamiento';
+import type { DesplazamientoResumen } from '@/types/desplazamiento';
 import { DesplazamientosFilters, type Conductor, type Ruta } from './DesplazamientosFilters';
 import { ExportButton } from './ExportButton';
-
-const ESTADO_LABEL: Record<EstadoDesplazamiento, string> = {
-  BORRADOR: 'Borrador',
-  EN_REVISION: 'En revisión',
-  APROBADO: 'Aprobado',
-  RECHAZADO: 'Rechazado',
-  ARCHIVADO: 'Archivado',
-};
-
-const ESTADO_COLOR: Record<EstadoDesplazamiento, string> = {
-  BORRADOR: 'bg-neutral-100 text-neutral-600',
-  EN_REVISION: 'bg-blue-50 text-blue-700',
-  APROBADO: 'bg-green-50 text-green-700',
-  RECHAZADO: 'bg-red-50 text-red-700',
-  ARCHIVADO: 'bg-neutral-100 text-neutral-400',
-};
+import { DesplazamientosTable } from './DesplazamientosTable';
 
 type SearchParams = {
   estado?: string;
@@ -145,66 +130,10 @@ export default async function DesplazamientosPage({
         </div>
       ) : (
         <>
-          <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-neutral-100 bg-neutral-50">
-                  <th className="text-left px-4 py-3 font-medium text-neutral-500">Código</th>
-                  <th className="text-left px-4 py-3 font-medium text-neutral-500">Ruta</th>
-                  <th className="text-left px-4 py-3 font-medium text-neutral-500 hidden sm:table-cell">
-                    Conductor
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-neutral-500 hidden md:table-cell">
-                    Salida
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-neutral-500">Estado</th>
-                  <th className="text-left px-4 py-3 font-medium text-neutral-500 hidden lg:table-cell">
-                    Fecha
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {desplazamientos.map((d) => (
-                  <tr
-                    key={d.id}
-                    className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors"
-                  >
-                    <td className="px-4 py-3">
-                      <Link
-                        href={`/desplazamientos/${d.id}`}
-                        className="font-mono text-xs text-neutral-700 hover:text-neutral-900 hover:underline"
-                      >
-                        {d.codigo}
-                      </Link>
-                    </td>
-                    <td className="px-4 py-3 text-neutral-800 max-w-[180px] truncate">
-                      {d.ruta.nombre}
-                    </td>
-                    <td className="px-4 py-3 text-neutral-600 hidden sm:table-cell">
-                      {d.conductor.nombre}
-                    </td>
-                    <td className="px-4 py-3 text-neutral-600 hidden md:table-cell font-mono">
-                      {d.horaSalida}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${ESTADO_COLOR[d.estado]}`}
-                      >
-                        {ESTADO_LABEL[d.estado]}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-neutral-500 text-xs hidden lg:table-cell">
-                      {new Date(d.createdAt).toLocaleDateString('es-CO', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DesplazamientosTable
+            desplazamientos={desplazamientos}
+            puedeExportar={puedeExportar}
+          />
 
           {/* Paginación */}
           {meta.totalPages > 1 && (
