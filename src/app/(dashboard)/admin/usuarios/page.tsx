@@ -113,8 +113,8 @@ export default async function UsuariosPage() {
             No hay usuarios registrados.
           </div>
         ) : (
-          <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="bg-white border border-neutral-200 rounded-xl overflow-x-auto">
+            <table className="w-full text-sm min-w-[520px]">
               <thead>
                 <tr className="border-b border-neutral-100 bg-neutral-50">
                   <th className="text-left px-4 py-3 font-medium text-neutral-500">Nombre</th>
@@ -169,7 +169,7 @@ export default async function UsuariosPage() {
                         <div className="flex items-center justify-end gap-1">
                           <Link
                             href={`/admin/usuarios/${u.id}/editar`}
-                            className="text-xs text-neutral-600 hover:text-neutral-900 px-2.5 py-1 rounded-md hover:bg-neutral-100 transition-colors"
+                            className="text-xs text-neutral-600 hover:text-neutral-900 px-2.5 py-2 min-h-[36px] flex items-center rounded-md hover:bg-neutral-100 transition-colors"
                           >
                             Editar
                           </Link>
@@ -177,7 +177,7 @@ export default async function UsuariosPage() {
                             <form action={toggle}>
                               <button
                                 type="submit"
-                                className={`text-xs px-2.5 py-1 rounded-md transition-colors ${
+                                className={`text-xs px-2.5 py-2 min-h-[36px] rounded-md transition-colors ${
                                   u.activo
                                     ? 'text-red-500 hover:text-red-700 hover:bg-red-50'
                                     : 'text-green-600 hover:text-green-800 hover:bg-green-50'

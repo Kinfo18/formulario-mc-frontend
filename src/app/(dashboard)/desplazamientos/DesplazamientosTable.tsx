@@ -90,22 +90,22 @@ export function DesplazamientosTable({ desplazamientos, puedeExportar }: Props) 
   return (
     <div className="space-y-3">
       {puedeExportar && someChecked && (
-        <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-neutral-900 text-white rounded-xl text-sm">
-          <span className="font-medium">
-            {selected.size} {selected.size === 1 ? 'desplazamiento seleccionado' : 'desplazamientos seleccionados'}
+        <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 bg-neutral-900 text-white rounded-xl text-sm">
+          <span className="font-medium text-xs sm:text-sm">
+            {selected.size} {selected.size === 1 ? 'seleccionado' : 'seleccionados'}
           </span>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             {error && <span className="text-red-300 text-xs">{error}</span>}
             <button
               onClick={() => setSelected(new Set())}
-              className="text-neutral-400 hover:text-white transition-colors text-xs"
+              className="text-neutral-400 hover:text-white transition-colors text-xs min-h-[36px] px-2"
             >
               Cancelar
             </button>
             <button
               onClick={handleBulkDownload}
               disabled={isPending}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white text-neutral-900 rounded-lg hover:bg-neutral-100 transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium bg-white text-neutral-900 rounded-lg hover:bg-neutral-100 transition-colors disabled:opacity-50 min-h-[36px]"
             >
               {isPending ? 'Generando ZIP…' : '↓ Descargar ZIP'}
             </button>
@@ -113,8 +113,8 @@ export function DesplazamientosTable({ desplazamientos, puedeExportar }: Props) 
         </div>
       )}
 
-      <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white border border-neutral-200 rounded-xl overflow-x-auto">
+        <table className="w-full text-sm min-w-[480px]">
           <thead>
             <tr className="border-b border-neutral-100 bg-neutral-50">
               {puedeExportar && (

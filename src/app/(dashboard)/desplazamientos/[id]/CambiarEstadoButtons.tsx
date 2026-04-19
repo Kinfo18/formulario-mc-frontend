@@ -94,8 +94,8 @@ export function CambiarEstadoButtons({ id, estado, rol, esPropietario }: Props) 
   }
 
   return (
-    <div className="flex flex-col items-end gap-2">
-      <div className="flex items-center gap-2 flex-wrap justify-end">
+    <div className="flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
+      <div className="flex flex-wrap items-center gap-2 justify-start sm:justify-end">
         {acciones.map((a) => (
           <button
             key={a.nuevoEstado}
@@ -111,7 +111,7 @@ export function CambiarEstadoButtons({ id, estado, rol, esPropietario }: Props) 
       </div>
 
       {accionPendiente && (
-        <div className="w-full max-w-sm bg-white border border-neutral-200 rounded-xl p-4 space-y-3 shadow-sm">
+        <div className="w-full sm:max-w-sm bg-white border border-neutral-200 rounded-xl p-4 space-y-3 shadow-sm">
           <p className="text-xs font-medium text-neutral-700">
             Motivo de rechazo <span className="text-red-500">*</span>
           </p>

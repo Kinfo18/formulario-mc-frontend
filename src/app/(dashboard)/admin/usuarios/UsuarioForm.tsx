@@ -114,17 +114,17 @@ export function UsuarioForm({ action, defaultValues, isEdit }: Props) {
         )}
       </div>
 
-      <div className="flex items-center gap-3 pt-2">
+      <div className="flex flex-wrap items-center gap-3 pt-2">
         <button
           type="submit"
           disabled={isPending}
-          className="px-5 py-2 text-sm font-medium text-white bg-neutral-900 rounded-lg hover:bg-neutral-800 disabled:opacity-50 transition-colors"
+          className="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-white bg-neutral-900 rounded-lg hover:bg-neutral-800 disabled:opacity-50 transition-colors"
         >
           {isPending ? 'Guardando…' : isEdit ? 'Guardar cambios' : 'Crear usuario'}
         </button>
         <a
           href="/admin/usuarios"
-          className="text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
+          className="text-sm text-neutral-500 hover:text-neutral-900 transition-colors py-2"
         >
           Cancelar
         </a>

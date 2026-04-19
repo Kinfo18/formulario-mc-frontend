@@ -56,17 +56,17 @@ export default async function DesplazamientoDetallePage({
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Encabezado */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Link href="/desplazamientos" className="text-xs text-neutral-400 hover:text-neutral-600">
               ← Desplazamientos
             </Link>
           </div>
-          <h1 className="text-2xl font-semibold text-neutral-900 font-mono">{desp.codigo}</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-neutral-900 font-mono">{desp.codigo}</h1>
           <p className="text-sm text-neutral-500 mt-0.5">{desp.ruta?.nombre}</p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex flex-wrap items-center gap-2">
           <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${ESTADO_COLOR[desp.estado as EstadoDesplazamiento]}`}>
             {ESTADO_LABEL[desp.estado as EstadoDesplazamiento]}
           </span>
@@ -210,7 +210,7 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 }
 
 function Grid({ children }: { children: React.ReactNode }) {
-  return <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-4">{children}</div>;
+  return <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 sm:gap-x-6 gap-y-4">{children}</div>;
 }
 
 function Info({ label, value, span }: { label: string; value: string | undefined; span?: number }) {

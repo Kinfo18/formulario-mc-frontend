@@ -33,14 +33,14 @@ export default async function DashboardLayout({
             <nav className="flex items-center gap-0.5 overflow-x-auto scrollbar-none">
               <Link
                 href="/desplazamientos"
-                className="text-xs text-neutral-600 hover:text-neutral-900 px-2.5 py-1.5 rounded-md hover:bg-neutral-100 transition-colors"
+                className="text-xs text-neutral-600 hover:text-neutral-900 px-3 py-2 min-h-[40px] flex items-center rounded-md hover:bg-neutral-100 transition-colors whitespace-nowrap"
               >
                 Desplazamientos
               </Link>
               {isAdminOrOps && (
                 <Link
                   href="/rutas"
-                  className="text-xs text-neutral-600 hover:text-neutral-900 px-2.5 py-1.5 rounded-md hover:bg-neutral-100 transition-colors"
+                  className="text-xs text-neutral-600 hover:text-neutral-900 px-3 py-2 min-h-[40px] flex items-center rounded-md hover:bg-neutral-100 transition-colors whitespace-nowrap"
                 >
                   Rutas
                 </Link>
@@ -48,7 +48,7 @@ export default async function DashboardLayout({
               {user.rol === 'ADMIN' && (
                 <Link
                   href="/admin/usuarios"
-                  className="text-xs text-neutral-600 hover:text-neutral-900 px-2.5 py-1.5 rounded-md hover:bg-neutral-100 transition-colors"
+                  className="text-xs text-neutral-600 hover:text-neutral-900 px-3 py-2 min-h-[40px] flex items-center rounded-md hover:bg-neutral-100 transition-colors whitespace-nowrap"
                 >
                   Usuarios
                 </Link>
@@ -64,7 +64,7 @@ export default async function DashboardLayout({
             <form action={logoutAction}>
               <button
                 type="submit"
-                className="text-xs text-neutral-500 hover:text-neutral-900 transition-colors px-2 py-1 rounded hover:bg-neutral-100"
+                className="text-xs text-neutral-500 hover:text-neutral-900 transition-colors px-3 py-2 min-h-[40px] rounded-md hover:bg-neutral-100"
               >
                 Salir
               </button>

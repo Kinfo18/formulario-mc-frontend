@@ -89,7 +89,7 @@ export function DesplazamientosFilters({
         placeholder="Buscar código…"
         value={q ?? ''}
         onChange={(e) => updateFilter('q', e.target.value)}
-        className={`${inputClass} w-36`}
+        className={`${inputClass} w-full sm:w-36`}
         aria-label="Buscar por código"
       />
 
@@ -156,21 +156,21 @@ export function DesplazamientosFilters({
       )}
 
       {/* Rango de fechas */}
-      <div className="flex items-center gap-1.5">
+      <div className="flex flex-wrap items-center gap-1.5">
         <input
           type="date"
           value={fechaDesde ?? ''}
           onChange={(e) => updateFilter('fechaDesde', e.target.value)}
-          className={inputClass}
+          className={`${inputClass} w-full xs:w-auto`}
           title="Fecha desde"
           aria-label="Fecha desde"
         />
-        <span className="text-xs text-neutral-400">—</span>
+        <span className="text-xs text-neutral-400 hidden xs:inline">—</span>
         <input
           type="date"
           value={fechaHasta ?? ''}
           onChange={(e) => updateFilter('fechaHasta', e.target.value)}
-          className={inputClass}
+          className={`${inputClass} w-full xs:w-auto`}
           title="Fecha hasta"
           aria-label="Fecha hasta"
         />
